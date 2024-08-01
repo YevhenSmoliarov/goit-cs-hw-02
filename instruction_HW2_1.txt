@@ -1,0 +1,201 @@
+Покрокова інструкція для створення Bash-скрипту
+Для того щоб написати Bash-скрипт, який автоматично перевіряє доступність певних вебсайтів, виконайте наступні кроки.
+
+Крок 1: Підготовка до написання скрипту
+Відкрийте текстовий редактор (наприклад, nano, vim або будь-який інший текстовий редактор).
+Створіть новий файл скрипту. Назвіть його, наприклад, check_websites.sh.
+Крок 2: Написання скрипту
+Оголосіть інтерпретатор скрипту. Це перший рядок вашого скрипту:
+
+bash
+Copy code
+#!/bin/bash
+Визначте масив з URL вебсайтів. Додайте наступний код:
+
+bash
+Copy code
+websites=(
+    "https://google.com"
+    "https://facebook.com"
+    "https://twitter.com"
+)
+Визначте назву файлу логів:
+
+bash
+Copy code
+log_file="website_status.log"
+Очистіть файл логів перед записом нових даних:
+
+bash
+Copy code
+> $log_file
+Напишіть цикл для перевірки доступності кожного сайту:
+
+bash
+Copy code
+for site in "${websites[@]}"; do
+    response=$(curl -s -o /dev/null -w "%{http_code}" $site)
+    if [ $response -eq 200 ]; then
+        echo "$site is UP" | tee -a $log_file
+    else
+        echo "$site is DOWN" | tee -a $log_file
+    fi
+done
+У цьому коді:
+
+curl -s -o /dev/null -w "%{http_code}" $site надсилає запит до вебсайту і отримує статус-код відповіді.
+if [ $response -eq 200 ]; then перевіряє, чи статус-код відповіді дорівнює 200.
+echo "$site is UP" | tee -a $log_file записує результат у файл логів та виводить його на екран.
+else вказує, що якщо статус-код не 200, то сайт недоступний.
+echo "$site is DOWN" | tee -a $log_file записує результат у файл логів та виводить його на екран.
+Виведіть повідомлення про завершення скрипту:
+
+bash
+Copy code
+echo "Results have been recorded in $log_file"
+Крок 3: Збереження та запуск скрипту
+Збережіть файл.
+
+Зробіть скрипт виконуваним. Відкрийте термінал і введіть команду:
+
+bash
+Copy code
+chmod +x check_websites.sh
+Запустіть скрипт:
+
+bash
+Copy code
+./check_websites.sh
+Повний код скрипту
+bash
+Copy code
+#!/bin/bash
+
+websites=(
+    "https://google.com"
+    "https://facebook.com"
+    "https://twitter.com"
+)
+
+log_file="website_status.log"
+
+> $log_file
+
+for site in "${websites[@]}"; do
+    response=$(curl -s -o /dev/null -w "%{http_code}" $site)
+    if [ $response -eq 200 ]; then
+        echo "$site is UP" | tee -a $log_file
+    else
+        echo "$site is DOWN" | tee -a $log_file
+    fi
+done
+
+echo "Results have been recorded in $log_file"
+Перевірка результатів
+Після виконання скрипту, відкрийте файл website_status.log і переконайтеся, що результати перевірки доступності вебсайтів записані правильно. Ви повинні побачити щось подібне до цього:
+
+vbnet
+Copy code
+https://google.com is UP
+https://facebook.com is UP
+https://twitter.com is UP
+Це всі кроки, необхідні для створення та виконання Bash-скрипту для перевірки доступності вебсайтів за допомогою curl.
+
+Зробіть скрипт виконуваним. Відкрийте термінал і введіть команду: який термінал відкривати, тобто де це вводити у якій програмі?
+ChatGPT
+Щоб виконати скрипт на Windows, вам потрібно скористатися програмою, яка дозволить працювати з терміналом. Є кілька варіантів:
+
+Вибір програм для роботи з терміналом на Windows
+Command Prompt (cmd.exe)
+PowerShell
+Git Bash (рекомендується для подібних завдань)
+Windows Subsystem for Linux (WSL) (для тих, хто знайомий з Linux)
+Використання Command Prompt або PowerShell
+Використання Command Prompt
+Відкрийте меню "Пуск".
+
+Введіть cmd у пошукове поле та натисніть Enter.
+
+У відкритому вікні Command Prompt перейдіть до директорії, де знаходиться ваш скрипт. Наприклад, якщо скрипт знаходиться на робочому столі, введіть:
+
+cmd
+Copy code
+cd %USERPROFILE%\Desktop
+Зробіть скрипт виконуваним за допомогою команди:
+
+cmd
+Copy code
+chmod +x check_websites.sh
+Запустіть скрипт:
+
+cmd
+Copy code
+./check_websites.sh
+Використання PowerShell
+Відкрийте меню "Пуск".
+
+Введіть powershell у пошукове поле та натисніть Enter.
+
+У відкритому вікні PowerShell перейдіть до директорії, де знаходиться ваш скрипт. Наприклад, якщо скрипт знаходиться на робочому столі, введіть:
+
+powershell
+Copy code
+cd $HOME\Desktop
+Зробіть скрипт виконуваним за допомогою команди:
+
+powershell
+Copy code
+chmod +x check_websites.sh
+Запустіть скрипт:
+
+powershell
+Copy code
+./check_websites.sh
+Використання Git Bash
+Встановіть Git Bash, якщо він у вас ще не встановлений. Ви можете завантажити його з офіційного сайту Git.
+
+Відкрийте Git Bash (знайдіть його через меню "Пуск").
+
+У Git Bash перейдіть до директорії, де знаходиться ваш скрипт. Наприклад, якщо скрипт знаходиться на робочому столі, введіть:
+
+bash
+Copy code
+cd ~/Desktop
+Зробіть скрипт виконуваним за допомогою команди:
+
+bash
+Copy code
+chmod +x check_websites.sh
+Запустіть скрипт:
+
+bash
+Copy code
+./check_websites.sh
+Використання Windows Subsystem for Linux (WSL)
+Встановіть WSL. Для цього відкрийте PowerShell з правами адміністратора і виконайте команду:
+
+powershell
+Copy code
+wsl --install
+Перезавантажте комп'ютер.
+
+Встановіть дистрибутив Linux з Microsoft Store (наприклад, Ubuntu).
+
+Відкрийте ваш дистрибутив Linux з меню "Пуск".
+
+У терміналі WSL перейдіть до директорії, де знаходиться ваш скрипт. Наприклад, якщо скрипт знаходиться на робочому столі, введіть:
+
+bash
+Copy code
+cd /mnt/c/Users/Ваше_Ім'я_Користувача/Desktop
+Зробіть скрипт виконуваним за допомогою команди:
+
+bash
+Copy code
+chmod +x check_websites.sh
+Запустіть скрипт:
+
+bash
+Copy code
+./check_websites.sh
+Ось і все! Ви успішно зробили скрипт виконуваним та запустили його у терміналі.
